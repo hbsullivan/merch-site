@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { v4 } from 'uuid';
+import ReusableForm from "./ReusableForm";
 
 export default function NewMerchForm(props){
 
@@ -16,20 +17,9 @@ export default function NewMerchForm(props){
 
   return(
     <React.Fragment>
-      <form onSubmit={handleNewMerchFormSubmission}>
-        <input
-          type='text'
-          name='name'
-          placeholder='Name' />
-        <input
-          type='number'
-          name='quantity'
-          placeholder='Quantity' />
-        <textarea
-          name='description'
-          placeholder='Description of Item' />
-        <button type='submit'>Add</button>
-      </form>
+      <ReusableForm 
+      formSubmissionHandler={handleNewMerchFormSubmission}
+      buttonText="Add Item" />
     </React.Fragment>
   )
 }
