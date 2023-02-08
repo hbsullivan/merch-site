@@ -15,7 +15,7 @@ function ReusableForm(props) {
           placeholder='Quantity' />
         <textarea
           name='description'
-          placeholder='Description].' />
+          placeholder='Description' />
         <button type='submit'>{props.buttonText}</button>
       </form>
     </React.Fragment>
