@@ -2,6 +2,7 @@ import React from "react";
 import MerchList from "./MerchList";
 import NewMerchForm from "./NewMerchForm"
 import MerchDetail from "./MerchDetail";
+import EditMerchForm from "./EditMerchForm"
 
 class MerchControl extends React.Component {
 
@@ -10,7 +11,8 @@ class MerchControl extends React.Component {
     this.state = {
       pageView: false,
       mainMerchList: [],
-      selectedItem: null
+      selectedItem: null,
+      editItemForm: false
     };
   }
 
@@ -18,13 +20,18 @@ class MerchControl extends React.Component {
    if (this.state.selectedItem !== null){
     this.setState({
       pageView: false,
-      selectedItem: null
+      selectedItem: null,
+      editItemForm: false
     });
    } else {
      this.setState(prevState => ({
        pageView: !prevState.pageView
      }));
    } 
+  }
+
+  handleEditClick = () => {
+    this.setState({editItemForm: true});
   }
 
   handleAddingNewItemToList = (newItem) => {
@@ -45,11 +52,25 @@ class MerchControl extends React.Component {
     });
   }
 
+  handleEditingItemInList = (itemToEdit) => {
+    const editedMainMerchList = this.state.mainMerchList
+                        .filter(item => item.id !== this.state.selectedItem.id)
+                        .concat(itemToEdit);
+    this.setState({
+      mainMerchList: editedMainMerchList,
+      editItemForm: false, 
+      selectedItem: null
+    });
+  }
+
   render() {
     let currentlyVisibleState = null;
     let buttonText = null;
-    if (this.state.selectedItem !== null) {
-      currentlyVisibleState = <MerchDetail item = {this.state.selectedItem} onClickingDelete = {this.handleDeletingSelectedItem}/>
+      if(this.state.editItemForm !== false) {
+        currentlyVisibleState = <EditMerchForm item = {this.state.selectedItem} onEditItem = {this.handleEditingItemInList}/>
+        buttonText= "Return to List"
+      } else if (this.state.selectedItem !== null) {
+      currentlyVisibleState = <MerchDetail item = {this.state.selectedItem} onClickingDelete = {this.handleDeletingSelectedItem} editClick = {this.handleEditClick}/>
       buttonText = "Return to List"
     } else if(this.state.pageView) {
       currentlyVisibleState = <NewMerchForm onNewItemCreation={this.handleAddingNewItemToList}/>
