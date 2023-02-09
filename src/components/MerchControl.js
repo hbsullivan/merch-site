@@ -63,19 +63,19 @@ class MerchControl extends React.Component {
     });
   }
 
-  // handleBuyItem = (itemToBuy) => {
-  //   if(itemToBuy.quantity > 0){
-  //     let reducedStock = itemToBuy.quantity - 1
-  //     console.log(reducedStock);
-  //     const reducedMainMerchList = this.state.mainMerchList
-  //                               .filter(item => item.id !== this.state.selectedItem.id)
-  //                               .concat(reducedStock);
-  //     this.setState({
-  //       mainMerchList: reducedMainMerchList,
-  //       selectedItem: null,
-  //     })
-  //   }
-  // }
+  handleBuyItem = (itemToBuy) => {
+    if(itemToBuy.quantity > 0){
+      let  number = parseInt(itemToBuy.quantity)
+      let newObject = { ...itemToBuy, quantity: (number - 1) }
+      const reducedMainMerchList = this.state.mainMerchList
+                                .filter(item => item.id !== this.state.selectedItem.id)
+                                .concat(newObject);
+      this.setState({
+        mainMerchList: reducedMainMerchList,
+        selectedItem: null,
+      })
+    }
+  }
 
   render() {
     let currentlyVisibleState = null;
@@ -85,7 +85,7 @@ class MerchControl extends React.Component {
         buttonText= "Return to List"
       } else if (this.state.selectedItem !== null) {
       currentlyVisibleState = <MerchDetail item = {this.state.selectedItem} onClickingDelete = {this.handleDeletingSelectedItem} editClick = {this.handleEditClick} 
-      // buy = {this.handleBuyItem}
+      buy = {this.handleBuyItem}
       />
       buttonText = "Return to List"
     } else if(this.state.pageView) {
